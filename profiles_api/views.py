@@ -4,6 +4,7 @@ from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication  
 #generates a random token string when the user logs in, then for every API request thereafter, this token string is added to the request which works as a password to authenticate requests
+from rest_framework import filters
 
 from profiles_api import serializers, models, permissions
 
@@ -92,5 +93,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     queryset=models.UserProfile.objects.all()
     authentication_classes=(TokenAuthentication,)
     permission_classes=(permissions.UpdateOwnProfile,)
+    filter_backends=(filters.SearchFilter,)
+    search_fields=('name','email',)
 
     
