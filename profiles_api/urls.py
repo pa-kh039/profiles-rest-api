@@ -10,6 +10,7 @@ router.register('profiles',views.UserProfileViewSet)
 
 urlpatterns=[
     path('hello-view/',views.HelloApiView.as_view()), #routes directly inserted inside urlpatterns won't be displayed...routes registered with router and then inserted into urlpatterns will be displayed using defaultrouter, like the below path
+    path('login/',views.UserLoginApiView.as_view()),
     path('',include(router.urls))
 ]
 

@@ -5,6 +5,8 @@ from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication  
 #generates a random token string when the user logs in, then for every API request thereafter, this token string is added to the request which works as a password to authenticate requests
 from rest_framework import filters
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.settings import api_settings
 
 from profiles_api import serializers, models, permissions
 
@@ -86,7 +88,7 @@ class HelloViewSet(viewsets.ViewSet):
     def destroy(self,request,pk=None):
         '''Handle removing an object'''
         return Response({'http_method':'DELETE'})
-    
+    # Password123 is the password for evert profile created here
 class UserProfileViewSet(viewsets.ModelViewSet):
     '''Handle creating and updating profiles'''
     serializer_class = serializers.UserProfileSerializer
@@ -96,4 +98,6 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     filter_backends=(filters.SearchFilter,)
     search_fields=('name','email',)
 
-    
+class UserLoginApiView(ObtainAuthToken):
+    '''Handle creating user authentication tokens'''
+    renderer_classes=api_settings.DEFAULT_RENDERER_CLASSES
